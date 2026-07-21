@@ -14,43 +14,38 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('제이에이치창호 이미지 매핑 및 팝업 제어 스크립트 활성화');
-
-    // 1. 팝업창 노출 제어 로직
-    const popup = document.getElementById('mainPopup');
+    const popupOverlay = document.getElementById('mainPopup');
+    const btnCloseTop = document.getElementById('btnCloseTop');
     const btnHide7Days = document.getElementById('btnHide7Days');
-    const btnClosePopup = document.getElementById('btnClosePopup');
 
-    if (popup) {
-        const expireDate = localStorage.getItem('popupHideUntil');
+    // 1. 브라우저 localStorage 확인 (7일 만료 시간 체크)
+    if (popupOverlay) {
+        const hideUntil = localStorage.getItem('jh_popup_hide_until');
         const now = new Date().getTime();
 
-        // 저장된 기간이 없거나, 이미 만료 기간이 지났다면 팝업을 띄움
-        if (!expireDate || now > parseInt(expireDate, 10)) {
-            popup.style.display = 'flex';
+        // 저장된 만료 시각이 없거나 이미 지났으면 팝업 노출
+        if (!hideUntil || now > parseInt(hideUntil, 10)) {
+            popupOverlay.style.display = 'flex';
+        } else {
+            popupOverlay.style.display = 'none';
         }
 
-        // 7일 동안 보지 않기 클릭 이벤트
-        btnHide7Days.addEventListener('click', () => {
-            const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000; // 7일을 밀리초로 계산
-            const limitTime = new Date().getTime() + sevenDaysInMs;
-            
-            localStorage.setItem('popupHideUntil', limitTime);
-            popup.style.display = 'none';
-        });
+        // 2. 우측 상단 X 버튼 클릭 시 단순 창 닫기
+        if (btnCloseTop) {
+            btnCloseTop.addEventListener('click', () => {
+                popupOverlay.style.display = 'none';
+            });
+        }
 
-        // 그냥 창 닫기 클릭 이벤트
-        btnClosePopup.addEventListener('click', () => {
-            popup.style.display = 'none';
-        });
+        // 3. 하단 '7일 동안 열지 않음 ✕' 클릭 시 7일 저장 후 닫기
+        if (btnHide7Days) {
+            btnHide7Days.addEventListener('click', () => {
+                const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
+                const expireTime = new Date().getTime() + sevenDaysInMs;
+
+                localStorage.setItem('jh_popup_hide_until', expireTime);
+                popupOverlay.style.display = 'none';
+            });
+        }
     }
-
-    // 2. 상단 메뉴 이동 확인용 콘솔 로그 (기존 기능)
-    const hotspots = document.querySelectorAll('.hotspot');
-    hotspots.forEach(spot => {
-        spot.addEventListener('click', () => {
-            const destination = spot.getAttribute('href');
-            console.log(`[이동] ${destination}`);
-        });
-    });
 });
