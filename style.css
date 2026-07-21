@@ -49,10 +49,10 @@ transition: background 0.2s ease-in-out;
 background: rgba(0, 102, 204, 0.04);
 }
 
-.logo-btn { top: 15%; left: 4.5%; width: 13.5%; height: 70%; }
-.product-btn { top: 25%; left: 43.5%; width: 6.5%; height: 50%; }
-.portfolio-btn { top: 25%; left: 51.5%; width: 6.5%; height: 50%; }
-.about-btn { top: 25%; left: 59.5%; width: 6.5%; height: 50%; }
+.logo-btn { top: 15%; left: 4%; width: 25%; height: 60%; }
+.product-btn { top: 20%; left: 46.7%; width: 6%; height: 40%; }
+.portfolio-btn { top: 25%; left: 56.5%; width: 6%; height: 40%; }
+.about-btn { top: 25%; left: 65.7%; width: 6%; height: 40%; }
 
 .popup-overlay {
 display: none;
@@ -63,9 +63,11 @@ width: 100vw;
 height: 100vh;
 background: rgba(0, 0, 0, 0.6);
 z-index: 99999;
-justify-content: center;
-align-items: center;
+justify-content: flex-start;
+align-items: flex-start;
 backdrop-filter: blur(1px);
+padding-top: 60px;
+padding-left: 60px;
 }
 
 .popup-window {
